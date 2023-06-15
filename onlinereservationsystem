@@ -1,0 +1,79 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class OnlineReservationSystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Map<String, Boolean> seats = new HashMap<>();
+        int totalSeats = 50;
+        
+        for (int i = 1; i <= totalSeats; i++) {
+            seats.put("Seat " + i, true);
+        }
+        
+        while (true) 
+        {
+            System.out.println("Welcome to the Online Reservation System!");
+            System.out.println("1. Vacant seat");
+            System.out.println("2. passenger reservation");
+            System.out.println("3. Cancel Reservation and refund");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();m
+            
+            switch (choice) {
+                case 1:
+                    viewSeatAvailability(seats);
+                    break;
+                case 2:
+                    passengerreservation(seats, scanner);
+                    break;
+                case 3:
+                    cancelReservation(seats, scanner);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        }
+    } 
+    public static void viewSeatAvailability(Map<String, Boolean> seats) {
+        System.out.println("Seat Availability:");
+        for (Map.Entry<String, Boolean> entry : seats.entrySet()) {
+            System.out.println(entry.getKey() + ": " + (entry.getValue() ? "Available" : "Occupied"));
+        }
+        System.out.println();
+    }
+    public static void passengerreservation(Map<String, Boolean> seats, Scanner scanner) {
+        System.out.print("Enter the seat number you want to reserve: ");
+        String seatNumber = scanner.next();
+        
+        if (seats.containsKey(seatNumber)) {
+            if (seats.get(seatNumber)) {
+                seats.put(seatNumber, false);
+                System.out.println("Seat " + seatNumber + " reserved successfully.");
+            } else {
+                System.out.println("Seat " + seatNumber + " is already occupied.");
+            }
+        } else {
+            System.out.println("Invalid seat number. Please try again.");
+        } 
+        System.out.println();
+    }
+    public static void cancelReservation(Map<String, Boolean> seats, Scanner scanner) {
+        System.out.print("Enter the seat number you want to cancel the reservation for: ");
+        String seatNumber = scanner.next();
+        
+        if (seats.containsKey(seatNumber)) {
+            if (!seats.get(seatNumber)) {
+                seats.put(seatNumber, true);
+                System.out.println("Reservation for seat " + seatNumber + " cancelled successfully.");
+            } else {
+                System.out.println("Seat " + seatNumber + " is not currently reserved.");
+            }
+        } else {
+            System.out.println("Invalid seat number. Please try again.");
+        }   
+        System.out.println();
+    }
+}
